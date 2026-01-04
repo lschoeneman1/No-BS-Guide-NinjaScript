@@ -1,14 +1,10 @@
 // ============================================================================
 // The No-Bullshit Guide to NinjaScript
-// Article #2: Hello World - Your First 10 Lines of NinjaScript
+// Article #2
 // 
 // Author: Larry Schoeneman
-// Series: https://medium.com/@yourprofile
-// Code Repo: https://github.com/yourusername/ninjascript-guide
-//
-// Description:
-// Your first NinjaScript indicator. Displays "Hello from NinjaScript!" 
-// on the chart. Simple proof-of-concept to show you can actually code.
+// Series: https://medium.com/itnext/the-no-bullshit-guide-to-ninjascript-part-2-e55b26717794
+// Code Repo: https://github.com/lschoeneman1/No-BS-Guide-NinjaScript
 //
 // Usage:
 // 1. Copy this file into NinjaScript Editor
