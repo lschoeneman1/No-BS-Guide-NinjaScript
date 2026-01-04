@@ -23,7 +23,7 @@ No theory. No academic bullshit. Just working code with actual explanations.
 2. **[Hello World - Your First 10 Lines of NinjaScript]([link](https://medium.com/itnext/the-no-bullshit-guide-to-ninjascript-part-1-11df4cfb496a))**  
    Code: `Indicators/HelloWorld.cs`
 
-3. **[Build a Bar Countdown Timer](link)**  
+3. **[Build a Bar Countdown Timer]([link](https://medium.com/@nobulltechguide/8f93c237c804))**  
    Code: `Indicators/MyBarCountdownTimer.cs`
 
 *(More articles added as published)*
