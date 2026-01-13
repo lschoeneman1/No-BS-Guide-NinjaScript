@@ -22,6 +22,15 @@ using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript.DrawingTools;
 #endregion
 
+// Display mode enum - defined outside namespace so it's globally accessible
+public enum TimerDisplayMode
+{
+    Seconds,
+    MinutesSeconds,
+    Percentage,
+    Combo
+}
+
 //This namespace holds Indicators in this folder and is required. Do not change it. 
 namespace NinjaTrader.NinjaScript.Indicators
 {
@@ -79,7 +88,7 @@ namespace NinjaTrader.NinjaScript.Indicators
                 BorderOpacity = 0;
                 
                 // Format properties - how the countdown is displayed
-                DisplayMode = 0; // 0=Seconds, 1=Min:Sec, 2=Percent, 3=Combo
+                DisplayMode = TimerDisplayMode.Seconds;
                 
                 // Warning properties - change colors based on time remaining
                 EnableColorWarnings = false;
@@ -222,26 +231,26 @@ namespace NinjaTrader.NinjaScript.Indicators
             string displayText = "";
             switch (DisplayMode)
             {
-                case 0: // Seconds - simple "45s" format
+                case TimerDisplayMode.Seconds: // Simple "45s" format
                     displayText = $"{remaining}s";
                     break;
                     
-                case 1: // Minutes:Seconds - formatted as "1:45"
+                case TimerDisplayMode.MinutesSeconds: // Formatted as "1:45"
                     int minutes = remaining / 60;
                     int seconds = remaining % 60;
                     displayText = $"{minutes}:{seconds:D2}";
                     break;
                     
-                case 2: // Percentage - shows "75.0%" of bar remaining
+                case TimerDisplayMode.Percentage: // Shows "75.0%" of bar remaining
                     int totalSeconds = barSeconds;
                     double percentage = ((double)remaining / totalSeconds) * 100;
                     displayText = $"{percentage:F1}%";
                     break;
                     
-                case 3: // Combo - shows both formats "1:45 (105s)"
-                    int mins = remaining / 60;
-                    int secs = remaining % 60;
-                    displayText = $"{mins}:{secs:D2} ({remaining}s)";
+                case TimerDisplayMode.Combo: // Shows seconds and percentage "45s (75.0%)"
+                    int totalSecondsCombo = barSeconds;
+                    double percentageCombo = ((double)remaining / totalSecondsCombo) * 100;
+                    displayText = $"{remaining}s ({percentageCombo:F1}%)";
                     break;
             }
             
@@ -331,9 +340,8 @@ namespace NinjaTrader.NinjaScript.Indicators
 
         // Format properties
         [NinjaScriptProperty]
-        [Display(Name = "Display Mode", Description = "0=Seconds, 1=Min:Sec, 2=Percent, 3=Combo", GroupName = "Format", Order = 1)]
-        [Range(0, 3)]
-        public int DisplayMode { get; set; }
+        [Display(Name = "Display Mode", Description = "How to format the countdown display", GroupName = "Format", Order = 1)]
+        public TimerDisplayMode DisplayMode { get; set; }
 
         // Warning properties
         [NinjaScriptProperty]
@@ -359,3 +367,59 @@ namespace NinjaTrader.NinjaScript.Indicators
     }
 }
 
+#region NinjaScript generated code. Neither change nor remove.
+
+namespace NinjaTrader.NinjaScript.Indicators
+{
+	public partial class Indicator : NinjaTrader.Gui.NinjaScript.IndicatorRenderBase
+	{
+		private MyCountdownTimer[] cacheMyCountdownTimer;
+		public MyCountdownTimer MyCountdownTimer(TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			return MyCountdownTimer(Input, displayPosition, fontSize, textColor, backgroundColor, borderColor, borderOpacity, displayMode, enableColorWarnings, greenThreshold, yellowThreshold, redThreshold);
+		}
+
+		public MyCountdownTimer MyCountdownTimer(ISeries<double> input, TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			if (cacheMyCountdownTimer != null)
+				for (int idx = 0; idx < cacheMyCountdownTimer.Length; idx++)
+					if (cacheMyCountdownTimer[idx] != null && cacheMyCountdownTimer[idx].DisplayPosition == displayPosition && cacheMyCountdownTimer[idx].FontSize == fontSize && cacheMyCountdownTimer[idx].TextColor == textColor && cacheMyCountdownTimer[idx].BackgroundColor == backgroundColor && cacheMyCountdownTimer[idx].BorderColor == borderColor && cacheMyCountdownTimer[idx].BorderOpacity == borderOpacity && cacheMyCountdownTimer[idx].DisplayMode == displayMode && cacheMyCountdownTimer[idx].EnableColorWarnings == enableColorWarnings && cacheMyCountdownTimer[idx].GreenThreshold == greenThreshold && cacheMyCountdownTimer[idx].YellowThreshold == yellowThreshold && cacheMyCountdownTimer[idx].RedThreshold == redThreshold && cacheMyCountdownTimer[idx].EqualsInput(input))
+						return cacheMyCountdownTimer[idx];
+			return CacheIndicator<MyCountdownTimer>(new MyCountdownTimer(){ DisplayPosition = displayPosition, FontSize = fontSize, TextColor = textColor, BackgroundColor = backgroundColor, BorderColor = borderColor, BorderOpacity = borderOpacity, DisplayMode = displayMode, EnableColorWarnings = enableColorWarnings, GreenThreshold = greenThreshold, YellowThreshold = yellowThreshold, RedThreshold = redThreshold }, input, ref cacheMyCountdownTimer);
+		}
+	}
+}
+
+namespace NinjaTrader.NinjaScript.MarketAnalyzerColumns
+{
+	public partial class MarketAnalyzerColumn : MarketAnalyzerColumnBase
+	{
+		public Indicators.MyCountdownTimer MyCountdownTimer(TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			return indicator.MyCountdownTimer(Input, displayPosition, fontSize, textColor, backgroundColor, borderColor, borderOpacity, displayMode, enableColorWarnings, greenThreshold, yellowThreshold, redThreshold);
+		}
+
+		public Indicators.MyCountdownTimer MyCountdownTimer(ISeries<double> input , TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			return indicator.MyCountdownTimer(input, displayPosition, fontSize, textColor, backgroundColor, borderColor, borderOpacity, displayMode, enableColorWarnings, greenThreshold, yellowThreshold, redThreshold);
+		}
+	}
+}
+
+namespace NinjaTrader.NinjaScript.Strategies
+{
+	public partial class Strategy : NinjaTrader.Gui.NinjaScript.StrategyRenderBase
+	{
+		public Indicators.MyCountdownTimer MyCountdownTimer(TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			return indicator.MyCountdownTimer(Input, displayPosition, fontSize, textColor, backgroundColor, borderColor, borderOpacity, displayMode, enableColorWarnings, greenThreshold, yellowThreshold, redThreshold);
+		}
+
+		public Indicators.MyCountdownTimer MyCountdownTimer(ISeries<double> input , TextPosition displayPosition, int fontSize, Brush textColor, Brush backgroundColor, Brush borderColor, int borderOpacity, TimerDisplayMode displayMode, bool enableColorWarnings, int greenThreshold, int yellowThreshold, int redThreshold)
+		{
+			return indicator.MyCountdownTimer(input, displayPosition, fontSize, textColor, backgroundColor, borderColor, borderOpacity, displayMode, enableColorWarnings, greenThreshold, yellowThreshold, redThreshold);
+		}
+	}
+}
+
+#endregion
